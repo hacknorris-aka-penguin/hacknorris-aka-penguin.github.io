@@ -18,7 +18,7 @@ navbar-links:
   Resources:
     - Beautiful Jekyll: "https://beautifuljekyll.com"
     - Learn markdown: "https://www.markdowntutorial.com/"
-  Author's home: "https://deanattali.com"
+    - Framework author's home: "https://deanattali.com"
 
 # --- Logo --- #
 
@@ -86,7 +86,7 @@ share-links-active:
 excerpt_length: 50
 
 # Whether or not to show an excerpt for every blog post in the feed page
-feed_show_excerpt: true
+feed_show_excerpt: false
 
 # Whether or not to show a list of tags below each post preview in the feed page
 feed_show_tags: true
@@ -95,23 +95,25 @@ feed_show_tags: true
 post_search: true
 
 # The keywords to associate with your website, for SEO purposes
-#keywords: "my,list,of,keywords"
+keywords: "development,apps,bash,html,android,linux"
 
 # --- Colours / background image --- #
 
 # Personalize the colours in your website. Colour values can be any valid CSS colour
 
-navbar-col: "#EAEAEA"
-navbar-text-col: "#404040"
-navbar-border-col: "#DDDDDD"
-page-col: "#FFFFFF"
-text-col: "#404040"
-link-col: "#008AFF"
-hover-col: "#0085A1"
-footer-col: "#EAEAEA"
-footer-text-col: "#777777"
-footer-link-col: "#404040"
-footer-hover-col: "#0085A1"
+navbar-col: "#2a2a2a"
+navbar-text-col: "#e2e2e2"
+navbar-border-col: "#5ef599"
+page-col: "#444444"
+text-col: "#e2e2e2"
+link-col: "#3dc2ea"
+hover-col: "#3dedea"
+footer-col: "#2a2a2a"
+footer-text-col: "#e2e2e2"
+footer-link-col: "#3dc2ea"
+footer-hover-col: "#3dedea"
+
+# #eaeaea #404040 #dddddd #ffffff #404040 #008aff #0085a1 #eaeaea #777777 #404040 #0085a1
 
 # Alternatively, the navbar, footer, and page background can be set to an image
 # instead of colour
@@ -121,7 +123,9 @@ footer-hover-col: "#0085A1"
 #page-img: "/assets/img/bgimage.png"
 
 # Suggest a colour for mobile browsers to use as the browser's theme. This is only supported by a few mobile browsers.
-#mobile-theme-col: "#0085A1"
+mobile-theme-col: "#2a2a2a"
+
+# #0085a1
 
 # For any extra visual customization, you can include additional CSS files in every page on your site. List any custom CSS files here
 #site-css:
