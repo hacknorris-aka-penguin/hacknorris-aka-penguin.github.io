@@ -10,18 +10,18 @@ tags:
 
 so today we're going with some basic linux commands you can use with bash (mostly to [compare things](https://hacknorris-aka-penguin.github.io/2022-01-22-bash-tutorial-part-2-conditions/) or boost your productivity)
 
-first easy command: `sudo` - logins as other user (mostly root)\
-    most important arguments:\
-        - `-e` edits file (no need to pass other commands to other files)\
-        - `-h` allows logging in to a remote PC\
-        - `-s` run in custom shell (other than bash)\
-        - `-u` run as other user (instead of default root)\
-        - `-A` doesn't ask for password if desktop have askpass app\
+first easy command: `sudo` - logins as other user (mostly root)
+    most important arguments:
+        - `-e` edits file (no need to pass other commands to other files)
+        - `-h` allows logging in to a remote PC
+        - `-s` run in custom shell (other than bash)
+        - `-u` run as other user (instead of default root)
+        - `-A` doesn't ask for password if desktop have askpass app
 
-second important command: `echo` - just outputs text (probably already was in first part of tutorial)\
+second important command: `echo` - just outputs text (probably already was in first part of tutorial)
 
-third important command: `ping` - checks connection to remote host (like website)\
-    most important arguments:\
+third important command: `ping` - checks connection to remote host (like website)
+    most important arguments:
         - `-c` limit pings to a number (otherwise you'll need to stop it by youself ending script)\
         - `-i` make delay in seconds before sending each ping\
         - `-q` doesnt display output (returns to a variable)\
