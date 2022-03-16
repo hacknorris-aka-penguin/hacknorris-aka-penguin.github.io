@@ -10,19 +10,26 @@ this time i list nodes (blocks) in minetest which you maybe didnt yet met or wil
 so yes. we go with a list, firstly we'll go with non-technical nodes (you MAYBE saw them):
 
 - permanent fire - same as fire but can be easily deleted and placed as any other node. rest of behavior is same or similar to fire. 
+
 [about](https://wiki.minetest.net/Permanent_Fire)
 
 - bones - public inventory after a dead player. similar to chest. 
+
 [about](https://wiki.minetest.net/Bones)
 
 - cave's ice - same as ice just that appears in caves so its rarer 
+
 [about](https://wiki.minetest.net/Cave_Ice)
 
 - tnt explosion - its same as air except of that it produces light. doesnt make damage and disappears in a while being relaced by 'normal' air 
+
 [about](https://wiki.minetest.net/Tnt:boom)
 
 - nyan cat - behaved similar to other blocks. was removed because was too rare (easteregg. only in older minetest versions) 
-[about cat](https://wiki.minetest.net/Nyan_Cat) [about rainbow](https://wiki.minetest.net/Nyan_Cat_Rainbow)
+
+[about cat](https://wiki.minetest.net/Nyan_Cat) 
+
+[about rainbow](https://wiki.minetest.net/Nyan_Cat_Rainbow)
 
 now we list techincal ones. practically you met all of em everytime you play but it hard to see em if your pc is fast. :
 
