@@ -1,0 +1,205 @@
+---
+layout: post
+title: full android recovery (twrp) tutorial
+author: "@dm1n"
+tags:
+- android
+- tutorials
+---
+
+<p>and yes - we take android as linux OS (because it IS based on linux, 
+just very modified and might not contain all core commands + google 
+changed filesystem a little).</p>
+
+<p>phone running android might boot in few states. they are : system 
+(only if operating system is properly installed), bootloader/fastboot 
+(common while installing recovery via desktop pc), bootanimation (while 
+operating system throws errors and cant boot it properly) and recovery. 
+default android recovery is a menu to which you can have access by 
+presing buttons when you reboot your phone (usually vol down/up + power)
+ and have options to restore system, update and sometimes even fix it 
+quickly . here we will focus on custom recovery (bootloader-installable)
+ named TWRP (but practically similar method can be used to madify device
+ also with other recoveries, like CWM or even stock/default).</p>
+
+<h4>android OS filesystem structure:</h4>
+
+<p>/</p>
+
+<p>data (here are all user apps and data of it)</p>
+
+<p>dev (here structure is same or similar to linux - contains hardware devices stored as files with some drivers)</p>
+
+<p>storage (list of hard drives connected to phone both with internal storage)</p>
+
+<p>root (home user for system administrator. mostly empty)</p>
+
+<p>system (contains system modifications of manufacturer or custom roms,
+ like bootanimation, some apps or fonts. also some hardware device 
+configurations in build.prop and addon.d)</p>
+
+<p>sys (contains kernel and its modules)</p>
+
+<p>cache (contains OS and recovery cache)</p>
+
+<p>mnt (contains list of all mount points and its contents - shortcuts)</p>
+
+<p>sometimes android OS'es might contain also other folders like opt, 
+persist, sdcard and so on. it depends on manufacturer, ROM (even stock 
+roms are different !!! ) and hardware.</p>
+
+<h4>most oftenly modded android parts :</h4>
+
+<p>system apps (arent deinstallable by default, have some more permissions than apk files or apps installed from stores)</p>
+
+<p>bootanimation.zip</p>
+
+<p>addon.d and build.prop</p>
+
+<p>fonts and ringtones</p>
+
+<p>also deinstalling core apps and installing + modifying busybox (cli tools)</p>
+
+<p>(ofcourse all other parts of android OS are modifiable)</p>
+
+<h4>recovery.zip basic file structure:</h4>
+
+<p>/</p>
+
+<p>META-INF</p>
+
+<p>/</p>
+
+<p>(list of certificates)</p>
+
+<p>com</p>
+
+<p>/</p>
+
+<p>google</p>
+
+<p>/</p>
+
+<p>android</p>
+
+<p>/</p>
+
+<p>updater-script and update-binary (both are needed)</p>
+
+<p>&nbsp;</p>
+
+<p>yes this file structure is very basic. just saying - any of mods you 
+want to install you need to add folders in root zip directory. like:</p>
+
+<p>/</p>
+
+<p>META-INF</p>
+
+<p>sys</p>
+
+<p>system</p>
+
+<p>dev</p>
+
+<p>&nbsp;</p>
+
+<p>okey. so now we know basics. lets start programming.</p>
+
+<p>updater-script is made in edify language and managed by update-binary in same directory.</p>
+
+<p>every updater-script ends with empty line and doesn't start with any 
+initial lines like common programming languages (just make file and 
+literally start programming), every commands from these below ends with a
+ semicolon (famous ' ; ' ) and new line.</p>
+
+<h4>edify referece explained:</h4>
+
+<p>getprop(property name) - checks for property in build.prop and returns ts value (eg. device name)</p>
+
+<p>mount("filesystem type", "name of partition, mostly EMMC", "path to 
+device file", "place it should be mounted") - mounts specified device as
+ a folder. where it'll will be mounted - it depends on device</p>
+
+<p>is_mounted("mount point") - checks if mount point exist in specified directory</p>
+
+<p>unmount("mount point") - unmounts path from device (removes folder which mount command mounted)</p>
+
+<p>format("filesystem type", "name of partition", "path to current 
+device file") - formats selected partition to other or same type. erases
+ content of partition.</p>
+
+<p>ui_print("text") - displays text in user console.</p>
+
+<p>package_extract_dir("folder in recovery.zip", "folder in system") - extracts folders from recovery.zip to system</p>
+
+<p>package_extract_file("file in recovery.zip", "folder to place file 
+into system") - extracts selected file from recovery.zip to system</p>
+
+<p>symlink("symlink name or path", "file path", "optionally other file pathes", "", "" ... ) - symlinks folders or files to a file</p>
+
+<p>delete("file path") - removes files or empty folders</p>
+
+<p>delete_recursive("folder path") - removes files and folders (even non-empty, including its content)</p>
+
+<p>set_perm("user id", "group id", "user permissions", "group 
+permissions", "file or folder path") - changes user's permissions to 
+files and folders (does NOT include subfolders)</p>
+
+<p>set_perm_recursive("user id", "group id", "user permissions", "group 
+permissions", "file or folder path") - changes user's permissions to 
+files and folders (includes subfolders)</p>
+
+<p>show_progress("size of progressbar defined in fraction", "duration - 
+how long") - shows progress in recovery screen (oftenly at bottom)</p>
+
+<p>set_progress("size of progress") - sets recovery' progressbar to defined size</p>
+
+<p>write_raw_image(image.img , partition) - flashes selected partition (same way as bootloader)</p>
+
+<p>wipe_cache() - resets cache (mostly temporary variables, useful to run when script ends)</p>
+
+<p>abort() - leave script alone and leave it (ends script)</p>
+
+<p>sleep(time) - waits specified time</p>
+
+<p>run_program(program path [program args , , , ]) runs a custom bash 
+script with passed arguments (so you can extend elify to custom linux 
+commands)</p>
+
+<p>read_file(path and name) - returns contents of specified file</p>
+
+<p>for comparing is_mounted() and getprop() you can use double &amp; like here:</p>
+
+<p>is_mounted() &amp;&amp; extract_package_dir()</p>
+
+<p>where it checks if is_mounted() returns true and extracts files or</p>
+
+<p>is_mounted() || mount()</p>
+
+<p>where it checks if file is not mounted.</p>
+
+<p>to compare output from getprop() we can compare it to a value and then pass to if condition. like here:</p>
+
+<p>&nbsp;</p>
+
+<p>getprop() == device;</p>
+
+<p>device || abort()</p>
+
+<p>&nbsp;</p>
+
+<p>will stop if device doesnt match device name.</p>
+
+<p>&nbsp;</p>
+
+<p>use these, cause otherwise these actions will become useless...</p>
+
+<p>&nbsp;</p>
+
+<p>if you want to make your own update/recovery zip you need to also 
+sign it and properly package (zip file, no compression/store). basic 
+recovery/update zip contents are here (signed) : <a href="https://github.com/hacknorris-aka-penguin/update.zip-twrp-template%20modify%20update-script">https://github.com/hacknorris-aka-penguin/update.zip-twrp-template modify update-script</a> using language above and archive (in store mode).</p>
+
+<p>&nbsp;</p>
+
+<p>this post was based on <a href="https://source.android.com/devices/tech/ota/nonab/inside_packages">official resources</a> and personal resources/phone of author.</p>
